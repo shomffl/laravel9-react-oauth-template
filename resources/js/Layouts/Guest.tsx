@@ -1,6 +1,7 @@
-import React from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/inertia-react';
+import React from "react";
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import { Link } from "@inertiajs/inertia-react";
+import OAuthLogin from "@/Pages/Auth/OAuthLogin";
 
 interface Props {
     children: React.ReactNode;
@@ -18,6 +19,8 @@ export default function Guest({ children }: Props) {
             <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {children}
             </div>
+
+            <OAuthLogin />
         </div>
     );
 }
