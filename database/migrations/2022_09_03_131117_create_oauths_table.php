@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('oauths', function (Blueprint $table) {
-            $table->bigInteger("id")->unsigned();
+            $table->string("id");
             $table->foreignId("user_id")->constrained("users");
             $table->foreignId("provider_id")->constrained("providers");
             $table->string("provider_token");
