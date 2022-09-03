@@ -31,7 +31,6 @@ class OauthController extends Controller
 
         $user = User::Create([
             'name' => $githubUser->nickname,
-            // 'email' => $githubUser->email,
         ]);
 
         $oauth = Oauth::Create([
@@ -53,6 +52,7 @@ class OauthController extends Controller
 
     public function googleCallBack(){
         $googleUser = Socialite::driver("google")->user();
+
         $oauth = Oauth::where([
             "id" => $googleUser->id,
             "provider_id" => 2
@@ -66,7 +66,6 @@ class OauthController extends Controller
 
         $user = User::Create([
             'name' => $googleUser->name,
-            // 'email' => $googleUser->email,
         ]);
 
         $oauth = Oauth::Create([
