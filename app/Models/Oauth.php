@@ -10,10 +10,21 @@ class Oauth extends Model
     use HasFactory;
 
     protected $fillable = [
+        "id",
         "user_id",
         "provider_id",
         "provider_name",
-        "probider_token",
+        "provider_token",
         "provider_refresh_token"
     ];
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
