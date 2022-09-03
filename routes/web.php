@@ -38,10 +38,6 @@ Route::get('/auth/github/redirect', [OauthController::class, "githubRedirect"]);
 
 Route::get('/auth/github/callback', [OauthController::class, "githubCallBack"]);
 
-Route::get('/auth/google/redirect', function () {
-    return Socialite::driver('google')->redirect();
-});
+Route::get('/auth/google/redirect', [OauthController::class, "googleRedirect"]);
 
-Route::get('/auth/google/callback', function () {
-    $googleUser = Socialite::driver('google')->user();
-});
+Route::get('/auth/google/callback', [OauthController::class, "googleCallBack"]);

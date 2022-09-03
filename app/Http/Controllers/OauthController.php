@@ -31,7 +31,7 @@ class OauthController extends Controller
 
         $user = User::Create([
             'name' => $githubUser->nickname,
-            'email' => $githubUser->email,
+            // 'email' => $githubUser->email,
         ]);
 
         $oauth = Oauth::Create([
@@ -46,4 +46,40 @@ class OauthController extends Controller
 
         return redirect('/dashboard');
     }
+
+    public function googleRedirect(){
+        return Socialite::driver("google")->redirect();
+    }
+
+    public function googleCallBack(){
+        $googleUser = Socialite::driver("google")->user();
+        $oauth = Oauth::where([
+            "id" => $googleUser->id,
+            "provider_id" => 2
+        ])->first();
+
+        if($oauth){
+            Auth::login($oauth->user);
+
+            return redirect("/dashboard");
+        }
+
+        $user = User::Create([
+            'name' => $googleUser->name,
+            // 'email' => $googleUser->email,
+        ]);
+
+        $oauth = Oauth::Create([
+            "id" => $googleUser->id,
+            "user_id" => $user->id,
+            "provider_id" => 1,
+            "provider_token" => $googleUser->token,
+            "provider_refresh_token" => $googleUser->refreshToken,
+        ]);
+
+        Auth::login($user);
+
+        return redirect('/dashboard');
+    }
+
 }
