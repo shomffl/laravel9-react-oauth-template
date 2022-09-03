@@ -54,3 +54,10 @@ Route::get('/auth/callback', function () {
     return redirect('/dashboard');
 });
 
+Route::get('/auth/google/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/google/callback', function () {
+    $googleUser = Socialite::driver('google')->user();
+});
