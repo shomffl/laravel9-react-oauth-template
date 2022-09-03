@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\OauthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,26 +34,9 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('github')->redirect();
-});
+Route::get('/auth/github/redirect', [OauthController::class, "githubRedirect"]);
 
-
-Route::get('/auth/callback', function () {
-    $githubUser = Socialite::driver('github')->user();
-    $user = User::updateOrCreate([
-        'github_id' => $githubUser->id,
-    ], [
-        'name' => $githubUser->nickname,
-        'email' => $githubUser->email,
-        'github_token' => $githubUser->token,
-        'github_refresh_token' => $githubUser->refreshToken,
-    ]);
-
-    Auth::login($user);
-
-    return redirect('/dashboard');
-});
+Route::get('/auth/github/callback', [OauthController::class, "githubCallBack"]);
 
 Route::get('/auth/google/redirect', function () {
     return Socialite::driver('google')->redirect();
