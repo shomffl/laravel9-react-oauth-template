@@ -12,68 +12,33 @@ use Illuminate\Support\Facades\Auth;
 
 class OauthController extends Controller
 {
-    public function githubRedirect(){
-        return Socialite::driver('github')->redirect();
+    public function OAuthRedirect(Provider $provider){
+        return Socialite::driver($provider->name)->redirect();
     }
 
-    public function githubCallBack(){
-        $githubUser = Socialite::driver('github')->user();
+    public function OAuthCallBack(Provider $provider){
+        $oauthUser = Socialite::driver($provider->name)->user();
+
         $oauth = Oauth::where([
-            "id" => $githubUser->id,
-            "provider_id" => 1
+            "id" => $oauthUser->id,
+            "provider_id" => $provider->id
         ])->first();
 
         if($oauth){
             Auth::login($oauth->user);
-
             return redirect("/dashboard");
         }
 
         $user = User::Create([
-            'name' => $githubUser->nickname,
+            'name' => $oauthUser->nickname,
         ]);
 
         $oauth = Oauth::Create([
-            "id" => $githubUser->id,
+            "id" => $oauthUser->id,
             "user_id" => $user->id,
             "provider_id" => 1,
-            "provider_token" => $githubUser->token,
-            "provider_refresh_token" => $githubUser->refreshToken,
-        ]);
-
-        Auth::login($user);
-
-        return redirect('/dashboard');
-    }
-
-    public function googleRedirect(){
-        return Socialite::driver("google")->redirect();
-    }
-
-    public function googleCallBack(){
-        $googleUser = Socialite::driver("google")->user();
-
-        $oauth = Oauth::where([
-            "id" => $googleUser->id,
-            "provider_id" => 2
-        ])->first();
-
-        if($oauth){
-            Auth::login($oauth->user);
-
-            return redirect("/dashboard");
-        }
-
-        $user = User::Create([
-            'name' => $googleUser->name,
-        ]);
-
-        $oauth = Oauth::Create([
-            "id" => $googleUser->id,
-            "user_id" => $user->id,
-            "provider_id" => 2,
-            "provider_token" => $googleUser->token,
-            "provider_refresh_token" => $googleUser->refreshToken,
+            "provider_token" => $oauthUser->token,
+            "provider_refresh_token" => $oauthUser->refreshToken,
         ]);
 
         Auth::login($user);

@@ -34,10 +34,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/auth/github/redirect', [OauthController::class, "githubRedirect"]);
+Route::get("/auth/{provider}/redirect", [OauthController::class, "OAuthRedirect"]);
 
-Route::get('/auth/github/callback', [OauthController::class, "githubCallBack"]);
-
-Route::get('/auth/google/redirect', [OauthController::class, "googleRedirect"]);
-
-Route::get('/auth/google/callback', [OauthController::class, "googleCallBack"]);
+Route::get('/auth/{provider}/callback', [OauthController::class, "OAuthCallBack"]);
