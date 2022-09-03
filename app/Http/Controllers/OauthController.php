@@ -71,7 +71,7 @@ class OauthController extends Controller
         $oauth = Oauth::Create([
             "id" => $googleUser->id,
             "user_id" => $user->id,
-            "provider_id" => 1,
+            "provider_id" => 2,
             "provider_token" => $googleUser->token,
             "provider_refresh_token" => $googleUser->refreshToken,
         ]);
