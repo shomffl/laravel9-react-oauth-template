@@ -16,10 +16,16 @@ class ProvidersTableSeeder extends Seeder
     public function run()
     {
         DB::table("providers")->insert([
+            "id" => 1,
             "name" => "github",
         ]);
         DB::table("providers")->insert([
+            "id" => 2,
             "name" => "google",
+        ]);
+        DB::table("providers")->insert([
+            "id" => 3,
+            "name" => "twitter",
         ]);
     }
 }

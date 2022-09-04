@@ -24,6 +24,12 @@ const OAuthLogin = () => {
                     <span className="text-red-500">e</span>
                 </div>
             </a>
+            <a
+                href="/auth/3/redirect"
+                className="bg-blue-500 text-white border border-gray-300 text-xl font-bold flex justify-center items-center py-2 my-6 rounded-lg shadow-lg hover:scale-105 duration-200 hover:shadow-xl active:scale-100"
+            >
+                <div>Sign in with Twitter</div>
+            </a>
         </div>
     );
 };
