@@ -18,7 +18,6 @@ class OauthController extends Controller
 
     public function OAuthCallBack(Provider $provider){
         $oauthUser = Socialite::driver($provider->name)->user();
-
         $oauth = Oauth::where([
             "id" => $oauthUser->id,
             "provider_id" => $provider->id
@@ -28,15 +27,15 @@ class OauthController extends Controller
             Auth::login($oauth->user);
             return redirect("/dashboard");
         }
-
+        $name = $oauthUser->name ?? $oauthUser->nickname;
         $user = User::Create([
-            'name' => $oauthUser->nickname,
+            'name' => $name,
         ]);
 
         $oauth = Oauth::Create([
             "id" => $oauthUser->id,
             "user_id" => $user->id,
-            "provider_id" => 1,
+            "provider_id" => $provider->id,
             "provider_token" => $oauthUser->token,
             "provider_refresh_token" => $oauthUser->refreshToken,
         ]);
