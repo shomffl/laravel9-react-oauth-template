@@ -24,6 +24,7 @@ class OauthController extends Controller
         ])->first();
 
         if($oauth){
+            $oauth->fill(["provider_token" => $oauthUser->token,"provider_refresh_token" => $oauthUser->refreshToken])->save();
             Auth::login($oauth->user);
             return redirect("/dashboard");
         }
@@ -32,7 +33,7 @@ class OauthController extends Controller
             'name' => $name,
         ]);
 
-        $oauth = Oauth::Create([
+        Oauth::Create([
             "id" => $oauthUser->id,
             "user_id" => $user->id,
             "provider_id" => $provider->id,
